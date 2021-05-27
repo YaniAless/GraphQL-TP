@@ -1,5 +1,15 @@
+mixin parseObject(list)
+  div
+  if list && list.length > 0
+    each val, key in list
+      if (typeof val === 'string')
+        span #{val}
+      else if (typeof val === 'object')
+        +parseObject(val)
+
 html
   head
     title= title
   body
     h1= message
+    +parseObject( result ) 
