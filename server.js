@@ -1,3 +1,6 @@
+import expressGraphQL from 'express-graphql';
+import graphql from 'graphql';
+
 const express = require('express')
 const pug = require('pug');
 const {
@@ -7,15 +10,30 @@ const {
 } = require('graphql');
 
 
+const { graphqlHTTP } = expressGraphQL;
 const PORT = 3000;
 
 var app = express();
 app.set('view engine', 'pug');
 
+app.use(
+  '/graphql',
+  graphqlHTTP((req) => ({
+    schema,
+    graphiql: {
+      defaultQuery: query,
+    },
+  }))
+);
 
 app.get('/', function (req, res) {
   res.render('index', { title: 'Accueil', message: 'Yani reveille toi'});
 });
+
+app.listen(PORT, () => {
+    console.log("Server stared at port => " + PORT)
+})
+
 
 // app.get('/league/:leagueId', (req, res) => {
 //     var leagueId = req.params.leagueId;
@@ -189,7 +207,3 @@ app.get('/', function (req, res) {
 //
 //     });
 // })
-
-app.listen(PORT, () => {
-    console.log("Server stared at port => " + PORT)
-})
