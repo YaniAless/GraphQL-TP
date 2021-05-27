@@ -1,16 +1,21 @@
 const express = require('express')
-const request = require('request')
-const dotenv = require('dotenv').config()
+const pug = require('pug');
+const {
+  GraphQLObjectType,
+  GraphQLInt,
+  GraphQLString
+} = require('graphql');
 
 
-const API_KEY = process.env.FOOTBALL_API_KEY
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-var app = express()
+var app = express();
+app.set('view engine', 'pug');
 
-app.get('/', (req,res) => {
-    res.send("Yani reveille toi")
-})
+
+app.get('/', function (req, res) {
+  res.render('index', { title: 'Accueil', message: 'Yani reveille toi'});
+});
 
 // app.get('/league/:leagueId', (req, res) => {
 //     var leagueId = req.params.leagueId;
