@@ -1,0 +1,58 @@
+html
+  head
+    title= title  
+    body
+      h1 Bravo Yani t'es réveillé !
+      p 
+        | Il est temps maintenant de créer ton équipe !
+        br
+        | Ton équipe doit avoir un nom, et elle est composé de 11 joueurs, ni plus ni moins.
+        br
+        | Le nom des joueurs, leur niveau d'attaque et de défense est géré aléatoirement.
+        br
+        | Alors, que la chance soit de ton côté !
+        
+        
+      form(action='/create_team', id="form" method='POST')
+        p
+          | Nom de l'équipe: 
+          input(id='team_name' type='text', name='title', value='')
+        p
+          | Nombre de joueurs attaquants: 
+          input(id='team_attackers' type='number', name='attackers', value='')
+        p
+          | Nombre de joueurs milieu: 
+          input(id='team_middlers' type='number', name='middlers', value='')
+        p
+          | Nombre de joueurs défenseurs: 
+          input(id='team_defenders' type='number', name='defenders', value='')
+        input(type='submit', value='Créer mon équipe')
+    
+    script.
+      var checkValues = function(event) {
+        event.preventDefault();
+          const teamName  = document.getElementById('team_name').value;
+          const attackers  = parseInt(document.getElementById('team_attackers').value);
+          const middlers  = parseInt(document.getElementById('team_middlers').value);
+          const defenders  = parseInt(document.getElementById('team_defenders').value);
+
+          if(!teamName) {
+            alert('Veuillez entrer un nom pour l\'équipe');
+            return false;
+          }
+          
+          if(attackers < 0 || middlers < 0 || defenders < 0) {
+            alert('Vous avez entré un chiffre négatif. Pas cool.');
+            return false;
+          }
+          
+          if(attackers + middlers + defenders == 11) {
+            event.currentTarget.submit();
+            return true;
+          }
+        
+        alert('Une équipe doit être composée de 11 joueurs. Je dis ça je dis rien.');
+        return false;
+      }
+      
+      document.getElementById("form").addEventListener("submit", checkValues, true);

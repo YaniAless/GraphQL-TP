@@ -1,5 +1,7 @@
 const express = require('express')
 const pug = require('pug');
+const bodyParser = require('body-parser');
+
 const {
   GraphQLObjectType,
   GraphQLInt,
@@ -10,11 +12,19 @@ const {
 const PORT = 3000;
 
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
 
 
 app.get('/', function (req, res) {
   res.render('index', { title: 'Accueil', message: 'Yani reveille toi'});
+});
+
+app.get('/team', function (req, res) {
+  res.render('create', { team_attackers: 0, team_middlers: 0, team_defenders: 0});
+});
+app.post('/create_team', function (req, res) {
+  res.render('index', { message: 'Bravo !', content: 'Ton équipe est créée. Si tout s\'est bien passé, tu devrais voir ton équipe juste en dessous.'});
 });
 
 // app.get('/league/:leagueId', (req, res) => {

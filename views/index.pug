@@ -3,7 +3,7 @@ mixin parseObject(list)
   if list && list.length > 0
     each val, key in list
       if (typeof val === 'string')
-        span #{val}
+        span #{key} #{val}
       else if (typeof val === 'object')
         +parseObject(val)
 
@@ -12,4 +12,6 @@ html
     title= title
   body
     h1= message
+    p= content
     +parseObject( result ) 
+    a(class='button' href='/team') Créer mon équipe
