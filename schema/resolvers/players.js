@@ -37,8 +37,7 @@ module.exports = {
             }));
             const team = await Team.findOneAndUpdate(
                 { name: args.playerInfos.teamName }, 
-                { $push: { players: player }, 
-                option: { useFindAndModify: false }})
+                { $push: { players: player }})
             return player;
         } catch (err) {
             throw err;
