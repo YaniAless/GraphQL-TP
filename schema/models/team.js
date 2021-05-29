@@ -8,7 +8,7 @@ const teamSchema = new mongoose.Schema({
         required: true
     },
     players: {
-        type: [ObjectId],
+        type: [Map],
         ref: Player,
         required: true
     },
