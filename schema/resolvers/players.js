@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Player = require('../models/player');
 
 module.exports = {
-    players: async () => {
+    getAllPlayers: async () => {
         try{
             const playerList = await Player.find({});
             return playerList;
@@ -10,7 +10,7 @@ module.exports = {
             throw err;
         }
     },
-    player: async (args) => {
+    getPlayer: async (args) => {
         try{
             const player = await Player.findOne({ name: "Alana"});
             return player;
@@ -18,4 +18,17 @@ module.exports = {
             throw err;
         }
     },
+    createPlayer: async (args) => {
+        try{
+            const player = await Player.create(new Player({
+                name: args.playerInfos.name,
+                attack: args.playerInfos.attack,
+                defense: args.playerInfos.defense,
+                teamName: args.playerInfos.teamName,
+            }));
+            return player;
+        } catch (err) {
+            throw err;
+        }
+    }
 }
