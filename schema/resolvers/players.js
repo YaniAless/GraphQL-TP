@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Player = require('../models/player');
+const Team = require('../models/team');
 
 module.exports = {
     getAllPlayers: async () => {
@@ -34,6 +35,10 @@ module.exports = {
                 defense: args.playerInfos.defense,
                 teamName: args.playerInfos.teamName,
             }));
+            const team = await Team.findOneAndUpdate(
+                { name: args.playerInfos.teamName }, 
+                { $push: { players: player }, 
+                option: { useFindAndModify: false }})
             return player;
         } catch (err) {
             throw err;
