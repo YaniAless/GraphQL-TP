@@ -12,7 +12,15 @@ module.exports = {
     },
     getPlayer: async (args) => {
         try{
-            const player = await Player.findOne({ name: "Alana"});
+            const player = await Player.findOne({ name: args.name });
+            return player;
+        } catch (err) {
+            throw err;
+        }
+    },
+    getPlayersFromTeam: async (args) => {
+        try{
+            const player = await Player.find({ teamName: args.teamName});
             return player;
         } catch (err) {
             throw err;

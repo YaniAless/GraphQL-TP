@@ -2,7 +2,7 @@ const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
   type Player {
-    id: ID!
+    _id: ID!
     name: String!
     attack: String!
     defense: String!
@@ -10,7 +10,7 @@ module.exports = buildSchema(`
   }
 
   type Team {
-    id: ID!
+    _id: ID!
     name: String!
     players: [Player]
   }
@@ -42,6 +42,7 @@ module.exports = buildSchema(`
     getTeam(name: String!): Team
     getAllPlayers: [Player]
     getPlayer(name: String!): Player
+    getPlayersFromTeam(teamName: String!): [Player]!
     getPlayerByTeamName(team: String!): Player
   }
 

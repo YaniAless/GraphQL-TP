@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
 const Player = require('./player');
 
@@ -7,7 +8,8 @@ const teamSchema = new mongoose.Schema({
         required: true
     },
     players: {
-        type: [Player],
+        type: [ObjectId],
+        ref: Player,
         required: true
     },
   });
