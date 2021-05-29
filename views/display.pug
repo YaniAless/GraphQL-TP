@@ -1,0 +1,52 @@
+html
+  head
+    title= title  
+    body
+      h1 Affichage d'une équipe
+      p 
+        | Vous pourez visualiser une équipe donnée !
+        br    
+      
+      div(id='players')
+
+      form(action='', id="form" method='POST')
+        p
+          | Nom de l'équipe: 
+          input(id='team_name' type='text', name='team_name', value='')
+
+        input(type='submit', value='Affichage de l\'équipe')
+    
+    script.
+      var teamDisplay = function() {
+          const teamName  = document.getElementById('team_name').value;
+          const div  = document.getElementById('players');
+
+          if(!teamName) {
+            alert('Veuillez entrer un nom pour l\'équipe');
+            return false;
+          }
+          
+          fetch('/graphql', {
+              method: 'POST',
+              headers: new Headers({'Content-Type': 'application/json'}),
+              body: JSON.stringify({
+                query: `query {
+                    getTeam(name: ${teamName}){
+                        name
+                    }
+                    getPlayersFromTeam(teamName: ${teamName}){
+                        attack
+                        defense
+                    }
+                }`,
+            }).then((response) => {
+              console.log(response);
+              div.innerHTML = response;
+            }
+          ).catch(error => console.log(error))
+            console.log(error)
+          }
+        return false;
+      }
+      
+      document.getElementById("form").addEventListener("submit", teamDisplay, true);
