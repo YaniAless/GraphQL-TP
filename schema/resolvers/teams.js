@@ -21,9 +21,11 @@ module.exports = {
     },
     createTeam: async (args) => {
         try{
-            console.log(args);
-            
-            //return team;
+            const team = await Team.create(new Team({
+                name: args.teamInfos.name,
+                players: args.teamInfos.players,
+            }));
+            return team;
         } catch (err) {
             throw err;
         }
