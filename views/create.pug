@@ -47,8 +47,22 @@ html
           }
           
           if(attackers + middlers + defenders == 11) {
-            event.currentTarget.submit();
-            return true;
+            fetch('/graphql', {
+              method: 'POST',
+              headers: new Headers({'Content-Type': 'application/json'}),
+              body: JSON.stringify({
+                query: `createPlayer(args)`,
+              variables: {
+                args: {playerInfos: {
+                  name: "test",
+                  attack : 50,
+                  defense : 50,
+                  teamName : "YAL"
+                }},
+              },
+            }).then((response) => console.log(response)).catch(error => console.log(error));
+            
+            return false;
           }
         
         alert('Une équipe doit être composée de 11 joueurs. Je dis ça je dis rien.');
