@@ -24,6 +24,13 @@ db.once('open', async () => {
   console.log("Connected to db");
 })
 
+app.get('/displayteam', function (req, res) {
+  res.render('display');
+});
+app.post('/displayteam', function (req, res) {
+  res.render('display', { team_name: req.body.team_name });
+});
+
 app.get('/team', function (req, res) {
   res.render('create', { team_attackers: 0, team_middlers: 0, team_defenders: 0});
 });
