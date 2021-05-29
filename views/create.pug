@@ -47,20 +47,75 @@ html
           }
           
           if(attackers + middlers + defenders == 11) {
+            const teamCreation = fetch('/graphql', {
+              method: 'POST',
+              headers: new Headers({'Content-Type': 'application/json'}),
+              body: JSON.stringify({
+                query: `mutation createTeam($teamInfos: TeamInput!) {
+                  createTeam(teamInfos: $teamInfos) {
+                    name
+                  }
+                }`,
+              variables: {
+                teamInfos: {
+                  name: teamName,
+              }
+            }
+            })
+          }
+          playerList = [];
+          for(let i = 0, i < attackers, i++) {
+            playerList[i] = {
+              name: `player ${i}`,
+              attack : Math.floor(Math.random() * 31) + 60,
+              defense : Math.floor(Math.random() * 41) + 20,
+              teamName : "YAL"
+            }
+          }
+          
+          for(let i = 0, i < middlers, i++) {
+            playerList[i] = {
+              name: `player ${i}`,
+              attack : Math.floor(Math.random() * 21) + 50,
+              defense : Math.floor(Math.random() * 21) + 50,
+              teamName : "YAL"
+            }
+          }
+          
+          for(let i = 0, i < defenders, i++) {
+            playerList[i] = {
+              name: `player ${i}`,
+              attack : Math.floor(Math.random() * 41) + 20,
+              defense : Math.floor(Math.random() * 31) + 60,
+              teamName : "YAL"
+            }
+          }
+          playerList.forEach(player => {
+            console.log("test");
+          })
             fetch('/graphql', {
               method: 'POST',
               headers: new Headers({'Content-Type': 'application/json'}),
               body: JSON.stringify({
-                query: `createPlayer(args)`,
+                query: `mutation createPlayer($playerInfos: PlayerInput!) {
+                  createPlayer(playerInfos: $playerInfos) {
+                    name
+                  }
+                }`,
               variables: {
-                args: {playerInfos: {
+                playerInfos: {
                   name: "test",
                   attack : 50,
                   defense : 50,
                   teamName : "YAL"
-                }},
               },
-            }).then((response) => console.log(response)).catch(error => console.log(error));
+            }//attaquants : 60-90 20-60, milieu: 50-70 50-70, defenseurs: 20-60 60-90, gardien : 1-15, 80-200
+          })
+            }).then((response) => {
+              console.log(response);
+              return false
+            }
+          ).catch(error => console.log(error));
             
             return false;
           }
