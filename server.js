@@ -27,7 +27,7 @@ db.once('open', async () => {
 app.get('/team', function (req, res) {
   res.render('create', { team_attackers: 0, team_middlers: 0, team_defenders: 0});
 });
-app.post('/create_team', function (req, res) {
+app.get('/create_team', function (req, res) {
   res.render('index', { message: 'Bravo !', content: 'Ton équipe est créée. Si tout s\'est bien passé, tu devrais voir ton équipe juste en dessous.'});
 });
 

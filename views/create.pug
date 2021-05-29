@@ -2,7 +2,7 @@ html
   head
     title= title  
     body
-      h1 Bravo Yani t'es réveillé !
+      h1 Bienvenue dans la création !
       p 
         | Il est temps maintenant de créer ton équipe !
         br
@@ -13,10 +13,10 @@ html
         | Alors, que la chance soit de ton côté !
         
         
-      form(action='/create_team', id="form" method='POST')
+      form(action='/create_team', id="form" method='GET')
         p
           | Nom de l'équipe: 
-          input(id='team_name' type='text', name='title', value='')
+          input(id='team_name' type='text', name='team_name', value='')
         p
           | Nombre de joueurs attaquants: 
           input(id='team_attackers' type='number', name='attackers', value='')
@@ -59,69 +59,66 @@ html
               variables: {
                 teamInfos: {
                   name: teamName,
+                  players: []
+                }
               }
-            }
             })
-          }
+          });
+          
           playerList = [];
-          for(let i = 0, i < attackers, i++) {
+          for(let i = 0; i < attackers; i++) {
             playerList[i] = {
               name: `player ${i}`,
               attack : Math.floor(Math.random() * 31) + 60,
               defense : Math.floor(Math.random() * 41) + 20,
-              teamName : "YAL"
+              teamName : teamName
             }
           }
           
-          for(let i = 0, i < middlers, i++) {
+          for(let i = attackers; i < attackers + middlers; i++) {
             playerList[i] = {
               name: `player ${i}`,
               attack : Math.floor(Math.random() * 21) + 50,
               defense : Math.floor(Math.random() * 21) + 50,
-              teamName : "YAL"
+              teamName : teamName
             }
           }
           
-          for(let i = 0, i < defenders, i++) {
+          for(let i = attackers + middlers; i < 11; i++) {
             playerList[i] = {
               name: `player ${i}`,
               attack : Math.floor(Math.random() * 41) + 20,
               defense : Math.floor(Math.random() * 31) + 60,
-              teamName : "YAL"
+              teamName : teamName
             }
           }
-          playerList.forEach(player => {
-            console.log("test");
-          })
-            fetch('/graphql', {
-              method: 'POST',
-              headers: new Headers({'Content-Type': 'application/json'}),
-              body: JSON.stringify({
-                query: `mutation createPlayer($playerInfos: PlayerInput!) {
-                  createPlayer(playerInfos: $playerInfos) {
-                    name
+          
+          
+          teamCreation.then( _ => {
+            playerList.forEach(player => {
+              fetch('/graphql', {
+                method: 'POST',
+                headers: new Headers({'Content-Type': 'application/json'}),
+                body: JSON.stringify({
+                  query: `mutation createPlayer($playerInfos: PlayerInput!) {
+                    createPlayer(playerInfos: $playerInfos) {
+                      name
+                    }
+                  }`,
+                  variables: {
+                    playerInfos: player,
                   }
-                }`,
-              variables: {
-                playerInfos: {
-                  name: "test",
-                  attack : 50,
-                  defense : 50,
-                  teamName : "YAL"
-              },
-            }//attaquants : 60-90 20-60, milieu: 50-70 50-70, defenseurs: 20-60 60-90, gardien : 1-15, 80-200
+                })
+              })
+              .then((response) => console.log(response))
+              .catch(error => console.log(error));    
+            })
+            window.location.href = "/create_team";
           })
-            }).then((response) => {
-              console.log(response);
-              return false
-            }
-          ).catch(error => console.log(error));
-            
-            return false;
-          }
-        
-        alert('Une équipe doit être composée de 11 joueurs. Je dis ça je dis rien.');
-        return false;
+        } else {
+          alert('Une équipe doit être composée de 11 joueurs. Je dis ça je dis rien.');
+          return false;
+        }        
       }
       
       document.getElementById("form").addEventListener("submit", checkValues, true);
